@@ -1,0 +1,4 @@
+::AML::acute myeloid leukemia
+::ALL::acute lymphoid leukemia
+::DLBCL::diffuse large B cell lymphoma
+::NTM::nontuberculous mycobacteria
