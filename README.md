@@ -2,7 +2,7 @@
 
 ## Overview
 
-AutoHotkey is a very powerful automation tool for Windows, implementing its own programming language and capable of doing (among many other things) text substitution, e.g., changing abbreviations to full text. Sadly it has not (yet) been ported to Unix-like platforms, and recent versions don't seem to work when run on Wine. AutoKey is a nice tool that can do text substitution, but unfortunately the user has to (manually) create a file for every abbreviation that's needed, instead of having all the entries in a single file like AutoHotkey's hotstrings. This script is an rough attempt at implementing a subset of AutoHotkey's hotstring expansion using Python 3.
+[AutoHotkey](https://www.autohotkey.com) is a very powerful automation tool for Windows, implementing its own programming language and capable of doing (among many other things) text substitution, e.g., changing abbreviations to full text. Sadly it has not (yet) been ported to Unix-like platforms, and recent versions don't seem to work when run on Wine. AutoKey is a nice tool that can do text substitution, but unfortunately the user has to (manually) create a file for every abbreviation that's needed, instead of having all the entries in a single file like AutoHotkey's hotstrings. This script is a rough attempt at implementing a subset of AutoHotkey's hotstring expansion using Python 3.
 
 ## Dependencies
 
