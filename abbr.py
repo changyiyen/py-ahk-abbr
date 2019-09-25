@@ -4,7 +4,7 @@
 # abbr.py - Abbreviation expansion in the spirit of AutoHotkey
 # Author: Chang-Yi Yen <changyiyen gmail com>
 # License: coffeeware
-# Version 0.1.0 (2019-09-24)
+# Version 0.1.0 (2019-09-25)
 
 import json
 import re
@@ -18,9 +18,10 @@ def load_hotstrings():
     #return hotstrings
     # Using AHK hotstring format
     #exp = re.compile('^:(?P<options>.*):(?P<abbr>.+)::(?P<full>.*)$')
-    exp = re.compile('^::(?P<abbr>.+)::(?P<full>.*)$')
+    exp = re.compile('^::(?P<abbr>.+)::(?P<full>[^;]+\S)(\s+;.*)?$')
     with open('hotstrings.txt', 'r') as f:
-        raw_lines = [i.strip() for i in f.readlines()]
+        # Ignore non-hotstring lines
+        raw_lines = filter(lambda x: re.search('^:', x),[i.strip() for i in f.readlines()])
         hotstrings = {re.search(exp,i)['abbr']:re.search(exp,i)['full'] for i in raw_lines}
     return hotstrings
 
