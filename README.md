@@ -24,7 +24,11 @@ The script will run in this window and print debug messages (as stated, this is 
 
 ## Known bugs
 
-While this script works on simple text editors (e.g., Mousepad), things can get odd when typing text into certain programs, such as Firefox's Omnibar (the text deletion can be off by several characters). Also, this script doesn't work for most CJK input methods (e.g. Chewing or Anthy), since pynput listens for the raw keycodes.
+* While this script works on simple text editors (e.g., Mousepad), things can get odd when typing text into certain programs, such as Firefox's Omnibar (the text deletion can be off by several characters).
+
+* This script doesn't work for most CJK input methods (e.g. Chewing or Anthy), since pynput listens for the raw keycodes. (But then, so doesn't AutoHotkey...)
+
+* The default behavior of this program is to type back the ending character that triggered the replacement. However, some ending characters (like the curly braces and the colon) need to have the shift key held down as they're being typed. As a result, if the shift key is _not_ held down as the ending character is being typed back, the wrong ending character may be typed out (e.g., the curly braces will be changed into square brackets on most keyboards). Workaround (short of adding special logic to these particular ending characters) is to simply hold the shift key down until the full text replacement is typed out.
 
 ## License
 
