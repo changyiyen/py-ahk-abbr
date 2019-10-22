@@ -6,10 +6,11 @@
 
 ## Dependencies
 
-All files were written for Python 3.6+. Currently the core of this script depends on [pynput](https://pynput.readthedocs.io/en/latest/) for keyboard listening and typing. It can be installed with Pip3, e.g.:
+All files were written for Python 3.6+. Currently the core of this script depends on [pynput](https://pynput.readthedocs.io/en/latest/) for keyboard listening and typing, as well as Xlib for low-level X event manipulation. These can be installed with Pip3, e.g.:
 
 ```shell
 pip3 install pynput
+pip3 install Xlib
 ```
 
 ## Running the script
@@ -21,6 +22,8 @@ python3 abbr.py
 ```
 
 The script will run in this window and print debug messages (as stated, this is a rough attempt), including the current internal text buffer contents and buffer length. The hotstring file is currently hard-coded as 'hotstring.txt', containing AutoHotkey-style hotstrings. _However, do note that only a subset of the hotstring format has been implemented; options, context and all that jazz have not been implemented (yet)._ Start typing in any other window and type your abbreviation of choice. Whenever an end character is typed immediately afterwards (see the source for details on which characters are considered end characters, but note that the end character list is modelled after AutoHotkey's), a sequence of backspaces are automatically typed out, followed by the full text. Press Escape any time to quit the script.
+
+This script has been tested to run on Python 3.6.8 + Xubuntu 18.04 and Python 3.6.9 + FreeBSD 12.0-RELEASE-p10.
 
 ## Known bugs
 
