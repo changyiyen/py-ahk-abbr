@@ -4,22 +4,24 @@
 # abbr.py - Abbreviation expansion in the spirit of AutoHotkey
 # Author: Chang-Yi Yen <changyiyen gmail com>
 # License: coffeeware
-# Version 0.1.2 (2020-05-19)
+# Version 0.1.2.1 (2020-11-19)
 
 # Version history
-# 0.1.2 (2020-05-19): add support for 'C0', '*' option
-# 0.1.1 (2020-10-12): add support for specifying hotstring file, directional keys, 'O' option, 'B0' option
-# 0.1.0 (2019-09-24): initial commit; added support for comments
+# 0.1.2.1 (2020-11-19)
+# 0.1.2 (2020-05-19)
+# 0.1.1 (2020-10-12)
+# 0.1.0 (2019-09-24)
 
 import argparse
 import re
 import sys
+import time
 
 import pynput
 
 def load_hotstrings(args):
     # Using AHK hotstring format
-    exp = re.compile('^:(?P<options>.*):(?P<abbr>.+)::(?P<full>[^;]+\S)(\s+;.*)?$')
+    exp = re.compile('^:(?P<options>.*):(?P<abbr>.+)::(?P<full>[^;]*\S)(\s+;.*)?$')
     # TODO: Add support for multiline text
     # N.b. Default behavior is different from AutoHotkey default in that case sensitivity is on;
     #      also, due to parsing and returning the file as a dict, *the last match wins*, unlike AutoHotley's default.
@@ -122,6 +124,7 @@ def replace(hs):
             controller.press(pynput.keyboard.Key.backspace)
             controller.release(pynput.keyboard.Key.backspace)
     for c in out:
+        time.sleep(args.delay)
         if c == '\u0380':
             controller.press(pynput.keyboard.Key.left)
             controller.release(pynput.keyboard.Key.left)
@@ -190,7 +193,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Abbreviation expansion in the spirit of AutoHotkey",
             formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument("-d", "--debug", action="store_true", help="print debug info")
-    parser.add_argument("-f", "--file", type=str, help="hotstring file", default="hotstrings.txt")
+    parser.add_argument("-f", "--file", type=str, help="hotstring file", default="hotstrings.ahk")
+    parser.add_argument("-t", "--delay", type=float, help="delay between keystrokes (in seconds)", default=0.1)
     parser.add_argument("--version", action="version", version="%(prog)s 0.1.2")
     args = parser.parse_args()
 

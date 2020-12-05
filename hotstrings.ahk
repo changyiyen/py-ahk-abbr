@@ -1,8 +1,8 @@
-; Medical abbreviations hotstrings/hotkeys
+﻿; Medical abbreviations hotstrings/hotkeys
 ; Based on Wikipedia (https://en.wikipedia.org/wiki/List_of_abbreviations_used_in_medical_prescriptions) and Pocket Medicine 6th Edition
-; Current as of November 27 2019
+; Current as of December 5 2020
 ; -----------------------------------------------------------------------------
-; Copyright (c) 2018-2019, Chang-Yi Yen <changyiyen@gmail.com>
+; Copyright (c) 2018-2020, Chang-Yi Yen <changyiyen@gmail.com>
 ; All rights reserved.
 ;
 ; Redistribution and use in source and binary forms, with or without
@@ -27,6 +27,7 @@
 ; (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 ; SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+; Set hotstrings to be case-sensitive
 #Hotstring c
 
 ;; Deprecated by Joint Commission
@@ -49,7 +50,7 @@
 ::a.d.::right ear  ; auris dextra; "a" may be mistaken for "o"
 ::AD::right ear
 ::a.s.::left ear  ; auris sinistra; "a" may be mistaken for "o"
-;::AS::left ear
+;::AS::left ear  ; may be confused with aortic stenosis
 ::a.u.::both ears  ; auris utraque; "a" may be mistaken for "o"
 ::AU::both ears
 ::b.i.d.::twice a day  ; bis in die; deprecated by AMA Manual of Style
@@ -112,22 +113,36 @@
 
 ;; Additional abbreviations observed at NCKUH
 ::AAD::discharge against medical advice
+::abd::abdominal
 ::AMA::against medical advice
 ::a/w::associated with
 ::BM::bone marrow
 ::BS::blood sugar
+::BSA::body surface area
 ::bx::biopsy
+::C+A+P::chest + abdomen + pelvis
 ::CD::change dressings
 ::c.m.::tomorrow morning  ; cras mane
+::C/T::chemotherapy
 ::ddx::differential diagnoses
+::dx::diagnosis
+::dz::disease
+::F/S::fingerstick glucose
 ::f/u::follow-up
 ::gtt::drops  ; gutta/guttae
+::hr::hour
 ::hx::history
+::IBW::ideal body weight
 ::MBD::discharge  ; "may be discharged"
 ::mcg::microgram  ; may be mistaken for "milligram" ("mg")
 ::OPD::outpatient clinic
+;::PD::peritoneal dialysis
+;::PD::disease progression
+::R/T::radiotherapy
+::RTC::return to clinic
+::SOB::shortness of breath
 ::tx::treatment
-::ug::microgram
+::ug::microgram  ; may be mistaken for "milligram" ("mg")
 ;:?:WM:: with meal  ; commented out here due to potential confusion with "Waldenstrom's macroglobulinemia"
 ::w/in::within
 ::WNL::within normal limits
@@ -140,6 +155,7 @@
 ::6-MP::6-mercaptopurine
 ::abx::antibiotics
 ::ACV::acyclovir  ; as defined in Pocket Medicine
+::AMB::amphotericin B  ; as defined in NCKUH Formulary 12e
 ::ASA::aspirin  ; acetylsalicylic acid
 ::AZA::azathioprine
 ::BDZ::benzodiazepine  ; as defined in Pocket Medicine
@@ -150,10 +166,12 @@
 ::DA::dopamine
 ::EPO::erythropoietin
 ::HCQ::hydroxychloroquine
+::IFN::interferon
 ::INH::isoniazid  ; isonicotinylhydrazide
 ::MTX::methotrexate
 ::NTG::nitroglycerin
 ::PZA::pyrazinamide
+::RTX::rituximab
 ::SSZ::sulfasalazine
 
 ;; Change proprietary names to INN
@@ -185,22 +203,32 @@
 ::CAPD::continuous ambulatory peritoneal dialysis
 ::CPCR::cardiopulmonocerebral resuscitation
 ::DES::drug-eluting stent
-::EPS::electrophysiological study
+::ECG::electrocardiography
+::EKG::electrocardiography
+;::EPS::electrophysiological study ; commented out here due to potential confusion with "extrapyramidal symptoms"
+::ERBD::endoscopic retrograde biliary drainage
+::ERCP::endoscopic retrograde cholangiopancreatography
 ::ETT::endotracheal intubation
 ::ICD::implantable cardioverter defibrillator
 ::iHD::intermittent hemodialysis
+::LP::lumbar puncture
 ::PCI::percutaneous coronary intervention
 ::POBA::plain-old balloon angioplasty
 ::POBAS::plain-old balloon angioplasty with stenting
 ::PPM::permanent pacemaker
+::PTA::percutaneous translumenal angioplasty
+::PTCD::percutaneous transhepatic cholangial drainage
+::PTGBD::percutaneous transhepatic gallbladder drainage
 ::RFCA::radiofrequency catheter ablation
 ::S/C::sputum culture
 ::S/R::sputum routine
 ::TAVI::transcatheter aortic valve implantation
+::TEE::transesophageal echocardiography
 ::TRH::total radical hysterectomy
 ::TTM::targeted temperature management
 ::U/A::urinalysis
 ::U/C::urine culture
+::UCG::transthoracic echocardiography ; used at NTUH
 
 ;; Common medical condition abbreviations
 ::AAA::abdominal aortic aneurysm
@@ -212,6 +240,7 @@
 ::AS::aortic valve stenosis
 ::BPH::benign prostatic hypertrophy
 ::CA::cancer
+::CAD::coronary artery disease
 ::CAP::community-acquired pneumonia
 ;::CD::Crohn's disease  ; commented out here due to potential confusion with "change dressings"
 ::CHF::congestive heart failure
@@ -219,16 +248,25 @@
 ::CRC::colorectal cancer
 ::DCM::dilated cardiomyopathy
 ::DLBCL::diffuse large B cell lymphoma
+::DM::dermatomyositis
+;::DM::diabetes mellitus
+::ESRD::end-stage renal disease
 ::GERD::gastroesophageal reflux disease
+::GIB::gastrointestinal bleeding
 ::GIST::gastrointestinal stromal tumor
 ::HAP::hospital-acquired pneumonia
 ::HF::heart failure
 ::HFpEF::heart failure with preserved ejection fraction
 ::HFrEF::heart failure with reduced ejection fraction
+::HoTN::hypotension
 ::HTN::hypertension
 ::IHCA::in-hospital cardiac arrest
+::IPNB::intraductal papillary neoplasm of the bile duct
 ::ISR::in-stent restenosis
+::JDM::juvenile dermatomyositis
+::LAP::lymphadenopathy
 ::MI::myocardial infarction
+::MM::multiple myeloma
 ::MR::mitral valve regurgitation
 ::NTM::nontuberculous mycobacteria
 ::PEA::pulseless electrical activity
@@ -238,15 +276,40 @@
 ::SOB::shortness of breath
 ::SpA::spondyloarthropathy
 ::SSS::sick sinus syndrome
+::TB::tuberculosis
 ::UC::ulcerative colitis
+::UTI::urinary tract infection
+
+;; Common microbiology-related abbreviations
+::CoNS::coagulase-negative Streptococci
+::CRAB::carbapenem-resistant Acinetobacter baumannii
+::CRE::carbapenem-resistant Enterobacteriaceae
+::CRKP::carbapenem-resistant Klebsiella pneumoniae
+::ESBL::extended-spectrum beta-lactamase
+::GNB::gram-negative bacilli
+::GPC::gram-negative cocci
+::KP::Klebsiella pneumoniae
+::MRSA::methicillin-resistant Staphylococcus aureus
+::MSSA::methicillin-susceptible Staphylococcus aureus
+::NTM::non-tuberculous mycobacteria
+::PsA::Pseudomonas aeruginosa
+::VRE::vancomycin-resistant Enterococcus
+
+;; Common cardiology-related abbreviations
+::1-V-D::one-vessel disease
+::2-V-D::two-vessel disease
+::3-V-D::three-vessel disease
+::AVA::aortic valve area
+::ERI::Elective Replacement Interval
+::LAA::left atrial appendage
+::LAD::left anterior descending artery
+::LCx::left circumflex
+::LVEF::left ventricle ejection fraction
+::RCA::right coronary artery
 
 ;; Other medical terms
-::AVA::aortic valve area
 ::BSA::body surface area
-::ERI::Elective Replacement Interval
 ::IBW::ideal body weight
 ::ICA::internal carotid artery
-::LAD::left anterior descending artery
-::LVEF::left ventricle ejection fraction
+::infxn::infection
 ::PCT::procalcitonin
-::RCA::right coronary artery

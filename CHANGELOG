@@ -1,0 +1,23 @@
+# Changelog for abbr.py
+
+## [Unreleased]
+
+## [0.1.2.1] 2020-11-19
+### Changed
+- Changed hotstring parsing regex to use * instead of + for replacement
+- Changed default hotstring filename from 'hotstrings.txt' to 'hotstrings.ahk'
+
+## [0.1.2] 2020-05-19
+### Added
+- Add support for 'C0', '*' options
+
+## [0.1.1] 2019-10-12
+### Added
+- Add support for specifying hotstring filename
+- Add support for directional keys
+- Add support for 'O', 'B0' options
+
+## [0.1.0] 2019-09-25
+### Added
+- Initial release
+- Added support for comments
