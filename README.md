@@ -23,15 +23,19 @@ python3 abbr.py -d
 
 The script will run in this window and print debug messages (as stated, this is a rough attempt), including the current internal text buffer contents and buffer length. The hotstring file defaults to 'hotstring.txt', which is supposed to be a file containing AutoHotkey-style hotstrings. _However, do note that only a subset of the hotstring format has been implemented; options, context and all that jazz have only been been partially implemented._ Start typing in any other window and type your abbreviation of choice. Whenever an end character is typed immediately afterwards (see the source for details on which characters are considered end characters, but note that the end character list is modelled after AutoHotkey's), a sequence of backspaces are automatically typed out, followed by the full text. (This behavior can be modified at runtime by using hotstring-specific options). Press Escape any time to quit the script.
 
-This script has been tested to run on Python 3.6.8 + Xubuntu 18.04 and Python 3.6.9 + FreeBSD 12.0-RELEASE-p10.
+This script has been tested to run on:
+
+* Python 3.6.8 - 3.6.9 + Xubuntu 18.04
+
+* Python 3.6.9 + FreeBSD 12.0-RELEASE-p10
 
 ## Known bugs
 
 * While this script works on simple text editors (e.g., Mousepad), things can get odd when typing text into certain programs, such as Firefox's Omnibar (the text deletion can be off by several characters).
 
-* This script doesn't work for most CJK input methods (e.g. Chewing or Anthy), since pynput listens for the raw keycodes. (But then, so doesn't AutoHotkey...)
+* This script doesn't work for CJK input methods that I know of (e.g. Chewing or Anthy), since pynput listens for the raw keycodes. (But then, so doesn't AutoHotkey or Autokey...)
 
-* The default behavior of this program is to type back the ending character that triggered the replacement. However, some ending characters (like the curly braces and the colon) need to have the shift key held down as they're being typed. As a result, if the shift key is _not_ held down as the ending character is being typed back, the wrong ending character may be typed out (e.g., the curly braces will be changed into square brackets on most keyboards). Workaround (short of adding special logic to these particular ending characters) is to simply hold the shift key down until the full text replacement is typed out.
+* The default behavior of this program is to type back the ending character that triggered the replacement. However, some ending characters (like the curly braces and the colon) need to have the shift key held down as they're being typed. As a result, if the shift key is _not_ held down as the ending character is being typed back, the wrong ending character may be typed out (e.g., the curly braces will be changed into square brackets on most keyboards). ~~Workaround (short of adding special logic to these particular ending characters) is to simply hold the shift key down until the full text replacement is typed out.~~ _2020-12-09 Edit: fixed using extra logic for these ending characters (shift key is held down before typing); however, this fix probably only works for particular keyboard layouts, like the generic 108-key English keyboard I'm using. This will probably fail in cases where these ending characters do not need a shift key to type, in which case you can remove that key from the "triggers_needing_shift" list._
 
 ## License
 

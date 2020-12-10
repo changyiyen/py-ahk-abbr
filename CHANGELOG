@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [0.2.0] 2020-12-08
+### Changed
+- Changed parser from current one-liner to new one that supports multi-line statements
+- Fixed bug where ending characters needing the Shift key to type don't type out properly (on generic 108-key keyboards, at least)
+- Added regex matching (experimental)
+
 ## [0.1.2.1] 2020-11-19
 ### Changed
 - Changed hotstring parsing regex to use * instead of + for replacement
