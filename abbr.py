@@ -15,6 +15,7 @@
 
 import argparse
 import collections
+import datetime
 import re
 import sys
 import time
@@ -22,11 +23,9 @@ import time
 import pynput
 
 def load_hotstrings(args):
-    # Using AHK hotstring format
-    #exp = re.compile('^:(?P<options>.*):(?P<abbr>.+)::(?P<full>[^;]*\S)(\s+;.*)?$')
     # TODO: Add support for multiline text
     # N.b. Default behavior is different from AutoHotkey default in that case sensitivity is on;
-    #      also, due to parsing and returning the file as a dict, *the last match wins*, unlike AutoHotley's default.
+    #      also, due to parsing and returning the file as a dict, *the last match wins*, unlike AutoHotkey's default.
       # *: no end character needed to trigger
       # ?: trigger inside word
         # TODO: pending testing on AHK: if 2 abbreviations match, which one wins?
@@ -35,15 +34,15 @@ def load_hotstrings(args):
         # the text buffer will just need endswith(trigger_string) to return true to trigger a match)
       # C0: case insensitive
     with open(args.file, 'r') as f:
-        # Ignore non-hotstring lines
-        #raw_lines = filter(lambda x: x.startswith(':'),[i.strip() for i in f.readlines()])
-        #hotstrings = {re.search(exp,i)['abbr']:(re.search(exp,i)['full'],re.search(exp,i)['options']) for i in raw_lines}
-        ## New parser ##
         # Initialize state variables and dicts
         in_comment_block = False
+        # Starting from Python 3.7 (and CPython 3.6), dictionaries are guaranteed to preserve
+        # element insertion order; nevertheless we're using OrderedDicts for compatibility
         no_endchar_hotstrings = collections.OrderedDict()
         intraword_hotstrings = collections.OrderedDict()
         no_case_hotstrings = collections.OrderedDict()
+        # [extension] literal hotstrings (i.e. replacement strings are typed as-is)
+        literal_hotstrings = collections.OrderedDict()
         default_hotstrings = collections.OrderedDict()
         # Define regexes
         directive_exp = re.compile('#(?P<directive_name>[a-zA-Z]+)(?P<directive_contents>.*)')
@@ -89,29 +88,63 @@ def load_hotstrings(args):
                 if args.regex:
                     # No end character to trigger
                     if match['options'] == '*':
-                        no_endchar_hotstrings[re.compile(match['abbr'])] = (match['full'], match['options'])
+                        no_endchar_hotstrings[re.compile(match['abbr'])] = [match['full'], match['options']]
                     # Match within word
                     if match['options'] == '?':
-                        intraword_hotstrings[re.compile(match['abbr'])] = (match['full'], match['options'])
+                        intraword_hotstrings[re.compile(match['abbr'])] = [match['full'], match['options']]
                     # Ignore case
                     if match['options'] == 'C0':
-                        no_case_hotstrings[re.compile(match['abbr'])] = (match['full'], match['options'])
+                        no_case_hotstrings[re.compile(match['abbr'])] = [match['full'], match['options']]
+                    # [extension] Literal hotstring
+                    if args.extensions and match['options'] == 'L':
+                        literal_hotstrings[re.compile(match['abbr'])] = [match['full'], match['options']]
                     else:
-                        default_hotstrings[re.compile(match['abbr'])] = (match['full'], match['options'])
+                        default_hotstrings[re.compile(match['abbr'])] = [match['full'], match['options']]
                 else:
                     # No end character to trigger
                     if match['options'] == '*':
-                        no_endchar_hotstrings[match['abbr']] = (match['full'], match['options'])
+                        no_endchar_hotstrings[match['abbr']] = [match['full'], match['options']]
                     # Match within word
                     if match['options'] == '?':
-                        intraword_hotstrings[match['abbr']] = (match['full'], match['options'])
+                        intraword_hotstrings[match['abbr']] = [match['full'], match['options']]
+                    # [extension] Literal hotstring
+                    if args.extensions and match['options'] == 'L':
+                        literal_hotstrings[match['abbr']] = [match['full'], match['options']]
                     # Ignore case
                     if match['options'] == 'C0':
-                        no_case_hotstrings[match['abbr']] = (match['full'], match['options'])
+                        no_case_hotstrings[match['abbr']] = [match['full'], match['options']]
                     else:
-                        default_hotstrings[match['abbr']] = (match['full'], match['options'])
+                        default_hotstrings[match['abbr']] = [match['full'], match['options']]
             raw_line = f.readline()
-    # TODO: confirm hotstring precedence
+        for hs in (no_endchar_hotstrings, intraword_hotstrings, no_case_hotstrings, default_hotstrings):
+            for k in hs.keys():
+                # Replace special keys with unassigned Unicode characters:
+                    # Left: U+0380
+                    # Right: U+0381
+                    # Up: U+0382
+                    # Down: U+0383
+                hs[k][0] = re.sub('{left (\d+)}', lambda a: '\u0380' * int(a[1]), hs[k][0])
+                hs[k][0] = re.sub('{right (\d+)}', lambda a: '\u0381' * int(a[1]), hs[k][0])
+                hs[k][0] = re.sub('{up (\d+)}', lambda a: '\u0382' * int(a[1]), hs[k][0])
+                hs[k][0] = re.sub('{down (\d+)}', lambda a: '\u0383' * int(a[1]), hs[k][0])
+                # Replace backspace with U+0008
+                hs[k][0] = re.sub('{backspace (\d+)}', lambda a: '\u0008' * int(a[1]), hs[k][0])
+                hs[k][0] = re.sub('{bs (\d+)}', lambda a: '\u0008' * int(a[1]), hs[k][0])
+                # AutoHotkey built-in variables
+                # TODO: complete list of builtins
+                ## special characters
+                ### half-width space
+                hs[k][0] = hs[k][0].replace('A_Space', ' ')
+                ### Unicode horizontal tab: U+0009
+                hs[k][0] = hs[k][0].replace('A_Tab', '\u0009')
+                ## script properties
+                ### A_Args: list of command line parameters
+                ### A_WorkingDir: current working directory
+                ### A_ScriptDir: full path of directory of current script
+                ### A_ScriptName: file name of current script
+                ### A_ScriptFullPath: full path of script
+        # Merge literal_hotstrings into default_hotstrings since the trigger conditions are the same
+        default_hotstrings.update(literal_hotstrings)
     return (no_endchar_hotstrings, intraword_hotstrings, no_case_hotstrings, default_hotstrings)
 
 def replace(hs):
@@ -122,7 +155,6 @@ def replace(hs):
         if args.regex:
             for p in patterns:
                 if re.search(p, text):
-                    print(p)
                     expansion = hs[p]
         else:
             expansion = hs[text]
@@ -130,18 +162,51 @@ def replace(hs):
         print('[WARNING] expansion not found in ', hs, file=sys.stderr)
         
     out = expansion[0]
-    # Replace special keys with unassigned Unicode characters:
-      # Left: U+0380
-      # Right: U+0381
-      # Up: U+0382
-      # Down: U+0383
-    out = re.sub('{left (\d+)}', lambda a: '\u0380' * int(a[1]), out)
-    out = re.sub('{right (\d+)}', lambda a: '\u0381' * int(a[1]), out)
-    out = re.sub('{up (\d+)}', lambda a: '\u0382' * int(a[1]), out)
-    out = re.sub('{down (\d+)}', lambda a: '\u0383' * int(a[1]), out)
-    # Replace backspace with U+0008
-    out = re.sub('{backspace (\d+)}', lambda a: '\u0008' * int(a[1]), out)
-    out = re.sub('{bs (\d+)}', lambda a: '\u0008' * int(a[1]), out)
+    options = expansion[1]
+    if options != 'L':
+        ## AutoHotkey built-in variables which may vary between calls
+        ## date and time
+        ## NB. date and time need to be updated with each keystroke
+        ### A_YYYY, A_Year: 4-digit current year
+        out = out.replace('A_YYYY', str(time.localtime().tm_year))
+        out = out.replace('A_Year', str(time.localtime().tm_year))
+        ### A_MM, A_Mon: 2-digit month
+        out = out.replace('A_MM', str(time.localtime().tm_mon))
+        out = out.replace('A_Mon', str(time.localtime().tm_mon))
+        ### A_DD, A_MDay: 2-digit day of month
+        out = out.replace('A_DD', str(time.localtime().tm_mday))
+        out = out.replace('A_MDay', str(time.localtime().tm_mday))
+        ### A_MMMM: current full name of month
+        out = out.replace('A_MMMM', time.strftime('%B'))
+        ### A_MMM: abbreviation of current month
+        out = out.replace('A_MMM', time.strftime('%b'))
+        ### A_DDDD: current full name of day of week
+        out = out.replace('A_DDDD', time.strftime('%A'))
+        ### A_DDD: current abbreviated name of day of week
+        out = out.replace('A_DDD', time.strftime('%a'))
+        ### A_WDay: 1-digit day of week (1-7, 1 always Sunday); Python sets Monday as 0
+        out = out.replace('A_WDay', str((time.localtime().tm_wday + 2) % 7))
+        ### A_YDay: current day of year
+        out = out.replace('A_YDay', str(time.localtime().tm_yday))
+        ### A_YWeek: current year and week number
+        out = out.replace('A_YWeek', str(time.localtime().tm_year) + str(datetime.date.isocalendar(datetime.date.today())[1]))
+        ### A_Hour: 2-digit hour
+        out = out.replace('A_Hour', str(time.localtime().tm_hour))
+        ### A_Min: 2-digit minute
+        out = out.replace('A_Min', str(time.localtime().tm_min))
+        ### A_Sec: 2-digit second
+        out = out.replace('A_Sec', str(time.localtime().tm_sec))
+        ### A_MSec: 3-digit millisecond
+        out = out.replace('A_MSec', str(datetime.datetime.now().microsecond / 1000))
+        ### A_Now: current local time (YYYYMMDDHH24MISS)
+        ### A_NowUTC: current UTC time (YYYYMMDDHH24MISS)
+        ## [extension] extra time variables
+        ### DATE_I: local date in ISO 8601 format
+        out = out.replace('DATE_I', time.strftime('%Y-%m-%d'))
+        ### DATETIME_I: local date and time in ISO 8601 format, to second precision
+        out = out.replace('DATETIME_I', time.strftime('%Y-%m-%dT%H:%M:%S%z'))
+        ### DATE_R: local date in RFC 5322 format
+        out = out.replace('DATE_R', time.strftime('%A, %d %m %Y %H:%M:%S %z'))
 
     # 'B0' turns off auto backspacing
     if 'B0' not in expansion[1]:
@@ -152,7 +217,12 @@ def replace(hs):
         for x in range(bs_count):
             controller.press(pynput.keyboard.Key.backspace)
             controller.release(pynput.keyboard.Key.backspace)
-    for c in out:
+    # Replace the 'out' variable with an list of varying length strings so they can be typed out faster
+    if len(out) > 0:
+        outlist = re.split('([^\w\s])', out)
+    if args.debug:
+        print("[DEBUG] outlist:", outlist, file=sys.stderr)
+    for c in outlist:
         time.sleep(args.delay)
         if c == '\u0380':
             controller.press(pynput.keyboard.Key.left)
@@ -169,6 +239,9 @@ def replace(hs):
         elif c == '\u0008':
             controller.press(pynput.keyboard.Key.backspace)
             controller.release(pynput.keyboard.Key.backspace)
+        elif c == '\u0009':
+            controller.press(pynput.keyboard.Key.tab)
+            controller.release(pynput.keyboard.Key.tab)
         else:
             controller.type(c)
 
@@ -215,7 +288,8 @@ def on_press(key):
             if text in default_hotstrings_keys:
                 # The reason we're determining which logical branch to take up here and not one level below is
                 # because the text buffer will get clobbered as soon as replace() is called.
-                # One potential way around this problem is to use the non-blocking form of pynput's functions.
+                # One potential way around this problem is to use the non-blocking form of pynput's functions,
+                # which should allow us to ignore the text buffer if needed.
                 # 'O' option omits end character
                 if 'O' not in default_hotstrings[text][1]:
                     replace(default_hotstrings)
@@ -271,13 +345,13 @@ def on_press(key):
 def on_release(key):
     # With apologies to the vim users out there...
     if key == pynput.keyboard.Key.esc:
-        exit()
         return False
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Abbreviation expansion in the spirit of AutoHotkey",
             formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument("-d", "--debug", action="store_true", help="print debug info")
+    parser.add_argument("-e", "--extensions", action="store_true", help="enable extensions")
     parser.add_argument("-f", "--file", type=str, help="file containing hotstrings", default="hotstrings.ahk")
     parser.add_argument("-r", "--regex", action="store_true", help="match against regexes (experimental)")
     parser.add_argument("-t", "--delay", type=float, help="time delay between keystrokes (in seconds)", default=0.1)
@@ -289,11 +363,10 @@ if __name__ == '__main__':
         print('[DEBUG] Loading hotstring file: ', args.file, file=sys.stderr)
         if args.regex:
             print('[DEBUG] Running in regex mode.', file=sys.stderr)
+        if args.extensions:
+            print('[DEBUG] Extensions enabled.', file=sys.stderr)
     hotstrings = load_hotstrings(args)
 
-    #no_endchar_hotstrings = {a:b for (a, b) in hotstrings.items() if '*' in b[1]}
-    #no_case_hotstrings = {a.lower():b for (a,b) in hotstrings.items() if 'C0' in b[1]}
-    #intraword_hotstrings = {a:b for (a,b) in hotstrings.items() if '?' in b[1]}
     no_endchar_hotstrings = hotstrings[0]
     intraword_hotstrings = hotstrings[1]
     no_case_hotstrings = hotstrings[2]
@@ -325,7 +398,7 @@ if __name__ == '__main__':
         pynput.keyboard.KeyCode.from_char('!')
     ]
 
-    # TODO: change to a main loop to avoid blocking (so we can listen on the mouse)
+    # TODO: change to a main loop to avoid blocking
     controller = pynput.keyboard.Controller()
     with pynput.keyboard.Listener(on_press=on_press, on_release=on_release) as listener:
         listener.join()

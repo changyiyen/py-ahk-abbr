@@ -63,12 +63,12 @@
 ::dc::discontinue  ; may be confused with "discharge"
 ::d/c::discontinue
 ::DC::discontinue
-::D/C::discontinue
+::D/C::discontinue 
 ::DTO::deodorized tincture of opium  ; may be confused with "diluted tincture of opium"
 ::hs::at bedtime  ; hora somni; may be confused with "half-strength"
 ::h.s.::at bedtime
 ::HS::at bedtime
-::H.S.::at bedtime
+::H.S.::at bedtime    at bedtime 
 ::IJ::injection  ; may be mistaken for "IV"
 ::IN::intranasal  ; may be mistaken for "IM" or "IV"
 ;::IT::intrathecal  ; may be mistaken for other abbreviations; commented out here due to potential confusion with "information technology"
@@ -80,7 +80,7 @@
 ::OD::right eye  ; oculus dexter
 ::o.s.::left eye  ; oculus sinister; "o" may be mistaken for "a"
 ::OS::left eye  ; oculus sinister
-::o.u.::both eyes  ; oculus uterque; "o" may be mistaken for "a"
+::o.u.::both eyes  ; oculus uterque; "o" may be mistaken for "a" 4 times a day\t 
 ::OU::both eyes  ; oculus uterque;
 ::p.o.::by mouth  ; per os; deprecated by AMA Manual of Style
 ::PO::by mouth
