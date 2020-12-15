@@ -58,17 +58,17 @@
 ::B.I.D.::twice a day
 ::b.d.::twice a day
 ::b.t.::bedtime  ; may be mistaken for b.i.d.
-::c.c.::mL  ; may be confused with "with food" ("cum cibo")
+::c.c.::mL  ; may be confused with "with food" ("cum cibo") 
 ::d.::day  ; may be confused with "dose"
 ::dc::discontinue  ; may be confused with "discharge"
 ::d/c::discontinue
 ::DC::discontinue
-::D/C::discontinue 
+::D/C::discontinue
 ::DTO::deodorized tincture of opium  ; may be confused with "diluted tincture of opium"
 ::hs::at bedtime  ; hora somni; may be confused with "half-strength"
 ::h.s.::at bedtime
 ::HS::at bedtime
-::H.S.::at bedtime    at bedtime 
+::H.S.::at bedtime
 ::IJ::injection  ; may be mistaken for "IV"
 ::IN::intranasal  ; may be mistaken for "IM" or "IV"
 ;::IT::intrathecal  ; may be mistaken for other abbreviations; commented out here due to potential confusion with "information technology"
@@ -80,7 +80,7 @@
 ::OD::right eye  ; oculus dexter
 ::o.s.::left eye  ; oculus sinister; "o" may be mistaken for "a"
 ::OS::left eye  ; oculus sinister
-::o.u.::both eyes  ; oculus uterque; "o" may be mistaken for "a" 4 times a day\t 
+::o.u.::both eyes  ; oculus uterque; "o" may be mistaken for "a" 4 times a day
 ::OU::both eyes  ; oculus uterque;
 ::p.o.::by mouth  ; per os; deprecated by AMA Manual of Style
 ::PO::by mouth
@@ -111,7 +111,7 @@
 ;::>:: greater than  ; may be mistaken for "7" ; commented out here due to potential interference when typing ASCII arrows
 ;::<:: less than  ; may be mistaken for "L" ; commented out here due to potential interference when typing ASCII arrows
 
-;; Additional abbreviations observed at NCKUH
+;; Additional abbreviations observed at NCKUH and NTUH
 ::AAD::discharge against medical advice
 ::abd::abdominal
 ::AMA::against medical advice
@@ -231,6 +231,9 @@
 ::UCG::transthoracic echocardiography ; used at NTUH
 
 ;; Common medical condition abbreviations
+::1-V-D::one-vessel disease
+::2-V-D::two-vessel disease
+::3-V-D::three-vessel disease
 ::AAA::abdominal aortic aneurysm
 ::ACKD::acute on chronic kidney disease
 ::ACOS::asthma-COPD overlap syndrome
@@ -296,9 +299,6 @@
 ::VRE::vancomycin-resistant Enterococcus
 
 ;; Common cardiology-related abbreviations
-::1-V-D::one-vessel disease
-::2-V-D::two-vessel disease
-::3-V-D::three-vessel disease
 ::AVA::aortic valve area
 ::ERI::Elective Replacement Interval
 ::LAA::left atrial appendage
@@ -306,6 +306,16 @@
 ::LCx::left circumflex
 ::LVEF::left ventricle ejection fraction
 ::RCA::right coronary artery
+
+;; Common nephrology-related abbreviations
+::CVVH::continuous venovenous hemofiltration
+::CVVHD::continuous venovenous hemodialysis
+::CVVHDF::continuous venovenous hemodiafiltration
+::SCUF::slow continuous ultrafiltration
+::SLED::sustained low-efficiency hemodialysis
+::SLEDD::sustained low-efficiency daily hemodialysis
+::SLEDD-F::sustained low-efficiency daily hemodiafiltration
+::UF::ultrafiltration
 
 ;; Other medical terms
 ::BSA::body surface area

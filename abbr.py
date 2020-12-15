@@ -16,6 +16,7 @@
 import argparse
 import collections
 import datetime
+import os
 import re
 import sys
 import time
@@ -23,6 +24,7 @@ import time
 import pynput
 
 def load_hotstrings(args):
+    '''Loads hotstrings from file and performs some preprocessing'''
     # TODO: Add support for multiline text
     # N.b. Default behavior is different from AutoHotkey default in that case sensitivity is on;
     #      also, due to parsing and returning the file as a dict, *the last match wins*, unlike AutoHotkey's default.
@@ -138,16 +140,24 @@ def load_hotstrings(args):
                 ### Unicode horizontal tab: U+0009
                 hs[k][0] = hs[k][0].replace('A_Tab', '\u0009')
                 ## script properties
-                ### A_Args: list of command line parameters
+                ### A_Args: list of command line parameters 
+                ### NB. This has been changed to a space-separated string created from the list)
+                hs[k][0] = hs[k][0].replace('A_Args', ' '.join(sys.argv))
                 ### A_WorkingDir: current working directory
+                hs[k][0] = hs[k][0].replace('A_WorkingDir', os.getcwd())
                 ### A_ScriptDir: full path of directory of current script
+                hs[k][0] = hs[k][0].replace('A_ScriptDir', os.path.abspath(os.path.dirname(sys.argv[0])))
                 ### A_ScriptName: file name of current script
+                hs[k][0] = hs[k][0].replace('A_ScriptName', __file__)
                 ### A_ScriptFullPath: full path of script
+                hs[k][0] = hs[k][0].replace('A_ScriptFullPath',
+                    os.path.join(os.path.abspath(os.path.dirname(sys.argv[0])), __file__))
         # Merge literal_hotstrings into default_hotstrings since the trigger conditions are the same
         default_hotstrings.update(literal_hotstrings)
     return (no_endchar_hotstrings, intraword_hotstrings, no_case_hotstrings, default_hotstrings)
 
 def replace(hs):
+    '''Searches hotstring dictionaries for a replacement phrase and performs the replacement'''
     global text
     if args.regex:
         patterns = hs.keys()
@@ -199,7 +209,9 @@ def replace(hs):
         ### A_MSec: 3-digit millisecond
         out = out.replace('A_MSec', str(datetime.datetime.now().microsecond / 1000))
         ### A_Now: current local time (YYYYMMDDHH24MISS)
+        out = out.replace('A_Now',time.strftime('%Y%m%d%H%M%S'))
         ### A_NowUTC: current UTC time (YYYYMMDDHH24MISS)
+        out = out.replace('A_NowUTC',time.strftime('%Y%m%d%H%M%S', time.gmtime()))
         ## [extension] extra time variables
         ### DATE_I: local date in ISO 8601 format
         out = out.replace('DATE_I', time.strftime('%Y-%m-%d'))
@@ -217,7 +229,8 @@ def replace(hs):
         for x in range(bs_count):
             controller.press(pynput.keyboard.Key.backspace)
             controller.release(pynput.keyboard.Key.backspace)
-    # Replace the 'out' variable with an list of varying length strings so they can be typed out faster
+    # Replace the 'out' variable with an list of varying length strings
+    # (alphaneumerics/spaces and Unicode) so they can be typed out faster
     if len(out) > 0:
         outlist = re.split('([^\w\s])', out)
     if args.debug:
@@ -345,7 +358,7 @@ def on_press(key):
 def on_release(key):
     # With apologies to the vim users out there...
     if key == pynput.keyboard.Key.esc:
-        return False
+        raise Warning("Escape key detected")
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Abbreviation expansion in the spirit of AutoHotkey",
@@ -400,5 +413,13 @@ if __name__ == '__main__':
 
     # TODO: change to a main loop to avoid blocking
     controller = pynput.keyboard.Controller()
-    with pynput.keyboard.Listener(on_press=on_press, on_release=on_release) as listener:
-        listener.join()
+    #with pynput.keyboard.Listener(on_press=on_press, on_release=on_release) as listener:
+    #    listener.join()
+    listener = pynput.keyboard.Listener(on_press=on_press, on_release=on_release)
+    listener.start()
+    while True:
+        try:
+            listener.join()
+        except Warning:
+            print('[INFO] Escape key pressed, exiting', file=sys.stderr)
+            break
