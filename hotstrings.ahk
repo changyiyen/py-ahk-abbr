@@ -111,8 +111,14 @@
 ;::>:: greater than  ; may be mistaken for "7" ; commented out here due to potential interference when typing ASCII arrows
 ;::<:: less than  ; may be mistaken for "L" ; commented out here due to potential interference when typing ASCII arrows
 
-;; Additional abbreviations observed at NCKUH and NTUH
+;; Deprecated or forbidden by NTUH policy
+::Q::curettage
+::PN::partial nephrectomy
 ::AAD::discharge against medical advice
+::MBD::discharge  ; "may be discharged"
+
+;; Additional abbreviations observed at NCKUH and NTUH
+::Ab::antibody
 ::abd::abdominal
 ::AMA::against medical advice
 ::a/w::associated with
@@ -133,7 +139,7 @@
 ::hr::hour
 ::hx::history
 ::IBW::ideal body weight
-::MBD::discharge  ; "may be discharged"
+::infxn::infection
 ::mcg::microgram  ; may be mistaken for "milligram" ("mg")
 ::OPD::outpatient clinic
 ;::PD::peritoneal dialysis
@@ -152,6 +158,8 @@
 
 ;; Common drug abbreviations
 ::5-ASA::mesalazine
+::5-FC::flucytosine
+::5-FU::fluorouracil
 ::6-MP::6-mercaptopurine
 ::abx::antibiotics
 ::ACV::acyclovir  ; as defined in Pocket Medicine
@@ -201,8 +209,14 @@
 ;::BCS::breast-conserving surgery  ; commented out here due to potential confusion with "biochemistry"
 ::CAG::coronary angiography
 ::CAPD::continuous ambulatory peritoneal dialysis
-::CPCR::cardiopulmonocerebral resuscitation
+;::CPCR::cardiopulmonocerebral resuscitation
+::CPR::cardiopulmonary resuscitation
+::CVVH::continuous venovenous hemofiltration
+::CVVHD::continuous venovenous hemodialysis
+::CVVHDF::continuous venovenous hemodiafiltration
 ::DES::drug-eluting stent
+::EB::epidermolysis bullosa
+::EBUS::endobronchial ultrasound
 ::ECG::electrocardiography
 ::EKG::electrocardiography
 ;::EPS::electrophysiological study ; commented out here due to potential confusion with "extrapyramidal symptoms"
@@ -222,6 +236,10 @@
 ::RFCA::radiofrequency catheter ablation
 ::S/C::sputum culture
 ::S/R::sputum routine
+::SCUF::slow continuous ultrafiltration
+::SLED::sustained low-efficiency hemodialysis
+::SLEDD::sustained low-efficiency daily hemodialysis
+::SLEDD-F::sustained low-efficiency daily hemodiafiltration
 ::TAVI::transcatheter aortic valve implantation
 ::TEE::transesophageal echocardiography
 ::TRH::total radical hysterectomy
@@ -229,6 +247,8 @@
 ::U/A::urinalysis
 ::U/C::urine culture
 ::UCG::transthoracic echocardiography ; used at NTUH
+::UF::ultrafiltration
+::WBRT::whole brain radiotherapy
 
 ;; Common medical condition abbreviations
 ::1-V-D::one-vessel disease
@@ -274,6 +294,7 @@
 ::MM::multiple myeloma
 ::MR::mitral valve regurgitation
 ::NTM::nontuberculous mycobacteria
+::ONJ::osteonecrosis of jaw
 ::PEA::pulseless electrical activity
 ::PNA::pneumonia
 ::PsA::psoriatic arthritis
@@ -284,8 +305,10 @@
 ::TB::tuberculosis
 ::UC::ulcerative colitis
 ::UTI::urinary tract infection
+::VWD::Von Willebrand's disease
+::WPW::Wolff-Parkinson-White syndrome
 
-;; Common microbiology-related abbreviations
+;; Common infectious disease-related abbreviations
 ::CoNS::coagulase-negative Streptococci
 ::CRAB::carbapenem-resistant Acinetobacter baumannii
 ::CRE::carbapenem-resistant Enterobacteriaceae
@@ -299,29 +322,30 @@
 ::NTM::non-tuberculous mycobacteria
 ::PsA::Pseudomonas aeruginosa
 ::VRE::vancomycin-resistant Enterococcus
+::PCT::procalcitonin
 
 ;; Common cardiology-related abbreviations
 ::AVA::aortic valve area
 ::ERI::Elective Replacement Interval
+::ICA::internal carotid artery
 ::LAA::left atrial appendage
 ::LAD::left anterior descending artery
 ::LCx::left circumflex
 ::LVEF::left ventricle ejection fraction
 ::RCA::right coronary artery
 
-;; Common nephrology-related abbreviations
-::CVVH::continuous venovenous hemofiltration
-::CVVHD::continuous venovenous hemodialysis
-::CVVHDF::continuous venovenous hemodiafiltration
-::SCUF::slow continuous ultrafiltration
-::SLED::sustained low-efficiency hemodialysis
-::SLEDD::sustained low-efficiency daily hemodialysis
-::SLEDD-F::sustained low-efficiency daily hemodiafiltration
-::UF::ultrafiltration
+;; Common hemogram-related abbreviations
+::Seg::segmented neutrophils
+::Band::band-form neutrophils
 
-;; Other medical terms
-::BSA::body surface area
-::IBW::ideal body weight
-::ICA::internal carotid artery
-::infxn::infection
-::PCT::procalcitonin
+;; Greek letters
+::alpha::α
+::beta::β
+::gamma::γ
+::kappa::κ
+::lambda::λ
+::mu::μ
+
+;; Miscellaneous symbols
+::deg::°
+::degC::℃
