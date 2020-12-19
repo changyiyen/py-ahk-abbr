@@ -50,7 +50,7 @@
 ::a.d.::right ear  ; auris dextra; "a" may be mistaken for "o"
 ::AD::right ear
 ::a.s.::left ear  ; auris sinistra; "a" may be mistaken for "o"
-;::AS::left ear  ; may be confused with aortic stenosis
+::AS::left ear  ; may be confused with aortic stenosis
 ::a.u.::both ears  ; auris utraque; "a" may be mistaken for "o"
 ::AU::both ears
 ::b.i.d.::twice a day  ; bis in die; deprecated by AMA Manual of Style
@@ -240,7 +240,9 @@
 ::ALL::acute lymphoid leukemia
 ::AML::acute myeloid leukemia
 ::AR::aortic regurgitation
+;; [Context "cardiology"]
 ::AS::aortic valve stenosis
+;; [EndContext "cardiology"]
 ::BPH::benign prostatic hypertrophy
 ::CA::cancer
 ::CAD::coronary artery disease
