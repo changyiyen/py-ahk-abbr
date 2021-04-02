@@ -50,7 +50,7 @@
 ::a.d.::right ear  ; auris dextra; "a" may be mistaken for "o"
 ::AD::right ear
 ::a.s.::left ear  ; auris sinistra; "a" may be mistaken for "o"
-;::AS::left ear  ; may be confused with aortic stenosis
+::AS::left ear  ; may be confused with aortic stenosis
 ::a.u.::both ears  ; auris utraque; "a" may be mistaken for "o"
 ::AU::both ears
 ::b.i.d.::twice a day  ; bis in die; deprecated by AMA Manual of Style
@@ -58,17 +58,17 @@
 ::B.I.D.::twice a day
 ::b.d.::twice a day
 ::b.t.::bedtime  ; may be mistaken for b.i.d.
-::c.c.::mL  ; may be confused with "with food" ("cum cibo")
+::c.c.::mL  ; may be confused with "with food" ("cum cibo") 
 ::d.::day  ; may be confused with "dose"
 ::dc::discontinue  ; may be confused with "discharge"
 ::d/c::discontinue
 ::DC::discontinue
-::D/C::discontinue 
+::D/C::discontinue
 ::DTO::deodorized tincture of opium  ; may be confused with "diluted tincture of opium"
 ::hs::at bedtime  ; hora somni; may be confused with "half-strength"
 ::h.s.::at bedtime
 ::HS::at bedtime
-::H.S.::at bedtime    at bedtime 
+::H.S.::at bedtime
 ::IJ::injection  ; may be mistaken for "IV"
 ::IN::intranasal  ; may be mistaken for "IM" or "IV"
 ;::IT::intrathecal  ; may be mistaken for other abbreviations; commented out here due to potential confusion with "information technology"
@@ -80,7 +80,7 @@
 ::OD::right eye  ; oculus dexter
 ::o.s.::left eye  ; oculus sinister; "o" may be mistaken for "a"
 ::OS::left eye  ; oculus sinister
-::o.u.::both eyes  ; oculus uterque; "o" may be mistaken for "a" 4 times a day\t 
+::o.u.::both eyes  ; oculus uterque; "o" may be mistaken for "a" 4 times a day
 ::OU::both eyes  ; oculus uterque;
 ::p.o.::by mouth  ; per os; deprecated by AMA Manual of Style
 ::PO::by mouth
@@ -111,8 +111,14 @@
 ;::>:: greater than  ; may be mistaken for "7" ; commented out here due to potential interference when typing ASCII arrows
 ;::<:: less than  ; may be mistaken for "L" ; commented out here due to potential interference when typing ASCII arrows
 
-;; Additional abbreviations observed at NCKUH
+;; Deprecated or forbidden by NTUH policy
+::Q::curettage
+::PN::partial nephrectomy
 ::AAD::discharge against medical advice
+::MBD::discharge  ; "may be discharged"
+
+;; Additional abbreviations observed at NCKUH and NTUH
+::Ab::antibody
 ::abd::abdominal
 ::AMA::against medical advice
 ::a/w::associated with
@@ -133,7 +139,7 @@
 ::hr::hour
 ::hx::history
 ::IBW::ideal body weight
-::MBD::discharge  ; "may be discharged"
+::infxn::infection
 ::mcg::microgram  ; may be mistaken for "milligram" ("mg")
 ::OPD::outpatient clinic
 ;::PD::peritoneal dialysis
@@ -152,6 +158,8 @@
 
 ;; Common drug abbreviations
 ::5-ASA::mesalazine
+::5-FC::flucytosine
+::5-FU::fluorouracil
 ::6-MP::6-mercaptopurine
 ::abx::antibiotics
 ::ACV::acyclovir  ; as defined in Pocket Medicine
@@ -201,8 +209,14 @@
 ;::BCS::breast-conserving surgery  ; commented out here due to potential confusion with "biochemistry"
 ::CAG::coronary angiography
 ::CAPD::continuous ambulatory peritoneal dialysis
-::CPCR::cardiopulmonocerebral resuscitation
+;::CPCR::cardiopulmonocerebral resuscitation
+::CPR::cardiopulmonary resuscitation
+::CVVH::continuous venovenous hemofiltration
+::CVVHD::continuous venovenous hemodialysis
+::CVVHDF::continuous venovenous hemodiafiltration
 ::DES::drug-eluting stent
+::EB::epidermolysis bullosa
+::EBUS::endobronchial ultrasound
 ::ECG::electrocardiography
 ::EKG::electrocardiography
 ;::EPS::electrophysiological study ; commented out here due to potential confusion with "extrapyramidal symptoms"
@@ -222,6 +236,10 @@
 ::RFCA::radiofrequency catheter ablation
 ::S/C::sputum culture
 ::S/R::sputum routine
+::SCUF::slow continuous ultrafiltration
+::SLED::sustained low-efficiency hemodialysis
+::SLEDD::sustained low-efficiency daily hemodialysis
+::SLEDD-F::sustained low-efficiency daily hemodiafiltration
 ::TAVI::transcatheter aortic valve implantation
 ::TEE::transesophageal echocardiography
 ::TRH::total radical hysterectomy
@@ -229,15 +247,22 @@
 ::U/A::urinalysis
 ::U/C::urine culture
 ::UCG::transthoracic echocardiography ; used at NTUH
+::UF::ultrafiltration
+::WBRT::whole brain radiotherapy
 
 ;; Common medical condition abbreviations
+::1-V-D::one-vessel disease
+::2-V-D::two-vessel disease
+::3-V-D::three-vessel disease
 ::AAA::abdominal aortic aneurysm
 ::ACKD::acute on chronic kidney disease
 ::ACOS::asthma-COPD overlap syndrome
 ::ALL::acute lymphoid leukemia
 ::AML::acute myeloid leukemia
 ::AR::aortic regurgitation
+;; [Context "cardiology"]
 ::AS::aortic valve stenosis
+;; [EndContext "cardiology"]
 ::BPH::benign prostatic hypertrophy
 ::CA::cancer
 ::CAD::coronary artery disease
@@ -269,6 +294,7 @@
 ::MM::multiple myeloma
 ::MR::mitral valve regurgitation
 ::NTM::nontuberculous mycobacteria
+::ONJ::osteonecrosis of jaw
 ::PEA::pulseless electrical activity
 ::PNA::pneumonia
 ::PsA::psoriatic arthritis
@@ -279,8 +305,10 @@
 ::TB::tuberculosis
 ::UC::ulcerative colitis
 ::UTI::urinary tract infection
+::VWD::Von Willebrand's disease
+::WPW::Wolff-Parkinson-White syndrome
 
-;; Common microbiology-related abbreviations
+;; Common infectious disease-related abbreviations
 ::CoNS::coagulase-negative Streptococci
 ::CRAB::carbapenem-resistant Acinetobacter baumannii
 ::CRE::carbapenem-resistant Enterobacteriaceae
@@ -294,22 +322,30 @@
 ::NTM::non-tuberculous mycobacteria
 ::PsA::Pseudomonas aeruginosa
 ::VRE::vancomycin-resistant Enterococcus
+::PCT::procalcitonin
 
 ;; Common cardiology-related abbreviations
-::1-V-D::one-vessel disease
-::2-V-D::two-vessel disease
-::3-V-D::three-vessel disease
 ::AVA::aortic valve area
 ::ERI::Elective Replacement Interval
+::ICA::internal carotid artery
 ::LAA::left atrial appendage
 ::LAD::left anterior descending artery
 ::LCx::left circumflex
 ::LVEF::left ventricle ejection fraction
 ::RCA::right coronary artery
 
-;; Other medical terms
-::BSA::body surface area
-::IBW::ideal body weight
-::ICA::internal carotid artery
-::infxn::infection
-::PCT::procalcitonin
+;; Common hemogram-related abbreviations
+::Seg::segmented neutrophils
+::Band::band-form neutrophils
+
+;; Greek letters
+::alpha::α
+::beta::β
+::gamma::γ
+::kappa::κ
+::lambda::λ
+::mu::μ
+
+;; Miscellaneous symbols
+::deg::°
+::degC::℃
