@@ -45,8 +45,9 @@ def load_hotstrings(args):
         # Also, replace() needs to be modified such that, instead of a full match,
         # the text buffer will just need endswith(trigger_string) to return true to trigger a match)
       # C0: case insensitive
-    with open(args.file, 'r') as f:
-        ## Initialize state variables and dicts ##
+
+    with open(args.file, 'r', encoding='utf-8') as f:
+        # Initialize state variables and dict
         in_comment_block = False
         # Starting from Python 3.7 (and CPython 3.6), dictionaries are guaranteed to preserve
         # element insertion order; nevertheless we're using OrderedDicts for compatibility
